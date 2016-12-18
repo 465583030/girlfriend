@@ -2,7 +2,6 @@ package gf
 
 import	(
 		"strings"
-		"reflect"
 		temp "html/template"
 		)
 
@@ -81,62 +80,11 @@ func (handler *Handler) Handle(req RequestInterface) {
 			
 			for key, validation := range v {
 
-				switch v := validation.model.(type) {
+				value := req.Body(key)
 
-					case string:
+				ok, x := validation.bodyFunction(req, value); if !ok { break }
 
-						value := req.Body(key)
-
-						ok, s := validation.bodyFunction(req, value.(string)); if !ok { break }
-
-						req.SetParam("_" + key, s)
-
-						continue
-
-					case float64:
-
-						value := req.Body(key)
-
-						ok, s := validation.bodyFunction(req, value.(float64)); if !ok { break }
-
-						req.SetParam("_" + key, s)
-
-						continue
-
-					case bool:
-
-						value := req.Body(key)
-
-						ok, s := validation.bodyFunction(req, value.(bool)); if !ok { break }
-
-						req.SetParam("_" + key, s)
-
-						continue
-
-					case []interface{}:
-
-						value := req.Body(key)
-
-						ok, s := validation.bodyFunction(req, value.(string)); if !ok { break }
-
-						req.SetParam("_" + key, s)
-
-						continue
-
-					case map[string]interface{}:
-
-						ok, m := req.MSI(key); if !ok { break }
-
-						req.SetParam("_" + key, m)
-
-						continue
-
-					default:
-
-						req.HttpError("INVALID POST DATATYPE: " + key + " - " + reflect.TypeOf(v).String(), 400)
-						return
-
-				}
+				req.SetParam("_" + key, x)
 
 			}
 
