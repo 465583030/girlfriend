@@ -12,8 +12,7 @@ func (handler *Handler) GenerateClientJS() error {
 	handlerName := handler.Name()
 
 	// skip handler name which breaks the js
-	if len(handlerName) == 0 { return nil }
-	if string(handlerName[0]) == "_" { return nil }
+	if strings.Contains(handlerName, "_") { return nil }
 
 	script := []string{
 		"\n // " + handler.functionKey,
