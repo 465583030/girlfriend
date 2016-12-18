@@ -2,12 +2,11 @@ package girlfriend
 
 import 	(
 		"io"
-		"strconv"
+		"net/http"
 		"encoding/json"
 		//
 		"github.com/valyala/fasthttp"
 		//
-		"github.com/golangdaddy/gaml"
 		"github.com/golangdaddy/girlfriend/common"
 		)
 
@@ -32,6 +31,18 @@ func NewRequestObject(node *gf.Node, ctx *fasthttp.RequestCtx) *Request {
 		Object:			gf.Object{},
 		Array:			gf.Array{},
 	}
+}
+
+func (req *Request) Res() http.ResponseWriter {
+
+	x := new(http.ResponseWriter)
+
+	return *x
+}
+
+func (req *Request) R() *http.Request {
+
+	return &http.Request{}
 }
 
 func (req *Request) Path() string {
@@ -104,45 +115,9 @@ func (req *Request) Redirect(path string, code int) *gf.ResponseStatus {
 	return nil
 }
 
-func (req *Request) HandleStatus(status *gf.ResponseStatus) {
+func (req *Request) HttpError(msg string, code int) {
 
-	// return with no action if handler returns nil
-	if status == nil { return }
-
-	if status.Code == 200 {
-
-		switch v := status.Value.(type) {
-
-			case nil:
-
-				return
-
-			case *gaml.ELEMENT:
-
-				b, err := v.Render(); if err != nil { req.Error(err); break }
-				req.ctx.Write(b)
-				return
-
-			case []byte:
-
-				req.ctx.Write(v)
-				return
-
-			default:
-
-				req.ctx.Response.Header.Set("Content-Type", "application/json")
-				b, err := json.Marshal(status.Value); if err != nil { req.Error(err); break }
-				req.ctx.Write(b)
-				return
-
-		}
-
-		return
-
-	}
-
-	statusMessage := "HTTP ERROR " + strconv.Itoa(status.Code) + ": " + status.Message
-
-	req.NewError(statusMessage)
-	req.ctx.Error(statusMessage, status.Code)
+	req.ctx.Error(msg, code)
+	req.NewError(msg)
 }
+
