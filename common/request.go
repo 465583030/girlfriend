@@ -14,6 +14,7 @@ type RequestInterface interface {
 	SetHeader(string, string)
 	ReadBody() *ResponseStatus
 	ReadBodyArray() *ResponseStatus
+	BodyArray() []interface{}
 	Redirect(string, int) *ResponseStatus
 	HttpError(string, int)
 	Writer() io.Writer
