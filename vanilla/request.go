@@ -45,6 +45,11 @@ func (req *Request) R() *http.Request {
 	return &http.Request{}
 }
 
+func (req *Request) BodyArray() []interface{} {
+
+	return req.Array
+}
+
 func (req *Request) Path() string {
 
 	return req.Node.Path
