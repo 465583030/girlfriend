@@ -19,12 +19,12 @@ type RequestInterface interface {
 	ReadBodyArray() *ResponseStatus
 	Redirect() *ResponseStatus
 	HandleStatus(*ResponseStatus)
-	MSI(interface{}) (bool, Object)
-	IA(interface{}) (bool, Array)
-	String(interface{}) (bool, string)
-	Float64(interface{}) (bool, float64)
-	Bool(interface{}) (bool, bool)
-	Int(interface{}) (bool, int)
+	MSI(string) (bool, Object)
+	IA(string) (bool, Array)
+	String(string) (bool, string)
+	Float64(string) (bool, float64)
+	Bool(string) (bool, bool)
+	Int(string) (bool, int)
 	HttpError(string, int)
 	Writer() io.Writer
 }
