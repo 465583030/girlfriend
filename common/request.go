@@ -21,6 +21,11 @@ type RequestInterface interface {
 	Write([]byte)
 	Fail() *ResponseStatus
 	Respond(args ...interface{}) *ResponseStatus
+	// logging
+	Debug(string)
+	NewError(string) error
+	Error(error)
+	DebugJSON(interface{})
 	//
 	Res() http.ResponseWriter
 	R() *http.Request
