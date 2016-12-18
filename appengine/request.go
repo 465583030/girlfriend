@@ -56,8 +56,18 @@ func (req *Request) Write(b []byte) {
 	req.Res.Write(b)
 }
 
+func (req *Request) BodyParam(k string) {
+
+	return req.Object[k]
+}
+
+func (req *Request) GetParam(k string) {
+
+	return req.Params[k]
+}
+
 func (req *Request) SetParam(k string, v interface{}) {
-	
+
 	req.Params[k] = v
 }
 

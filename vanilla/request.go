@@ -53,6 +53,16 @@ func (req *Request) Write(b []byte) {
 	req.ctx.Write(b)
 }
 
+func (req *Request) BodyParam(k string) {
+
+	return req.Object[k]
+}
+
+func (req *Request) GetParam(k string) {
+
+	return req.Params[k]
+}
+
 func (req *Request) SetParam(k string, v interface{}) {
 	
 	req.Params[k] = v
@@ -75,6 +85,16 @@ func (req *Request) ReadBody() *gf.ResponseStatus {
 	err := json.Unmarshal(req.ctx.PostBody(), &req.Object); if err != nil { return gf.Respond(400, err.Error()) }
 
 	return nil
+}
+
+func (req *Request) Fail() *gf.ResponseStatus {
+
+	return gf.Fail()
+}
+
+func (req *Request) Respond(args ...interface{}) *gf.ResponseStatus {
+
+	return gf.Respond(args)
 }
 
 func (req *Request) Redirect(path string, code int) *gf.ResponseStatus {
