@@ -101,7 +101,7 @@ func (node *Node) handler(req *Request) *Handler {
 
 	node.RLock()
 
-		handler := node.methods[req.R.Method]
+		handler := node.methods[string(req.ctx.Method())]
 
 	node.RUnlock()
 

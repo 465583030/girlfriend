@@ -151,12 +151,12 @@ func (handler *Handler) Handle(req *Request) {
 
 		case "file":
 
-			err := handler.template.Execute(req.Res, nil); if err != nil { panic(err) }
+			err := handler.template.Execute(req.ctx.Response.BodyWriter(), nil); if err != nil { panic(err) }
 
 		case "folder":
 
 			// serve a template added with the .Template(...) method
-			err := handler.template.ExecuteTemplate(req.Res, handler.templatePath, nil); if err != nil { panic(err) }
+			err := handler.template.ExecuteTemplate(req.ctx.Response.BodyWriter(), handler.templatePath, nil); if err != nil { panic(err) }
 
 	}
 

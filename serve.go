@@ -16,14 +16,14 @@ func (node *Node) mainHandler(ctx *fasthttp.RequestCtx) {
 
 	req := node.NewRequestObject(ctx)
 
-	fullPath := req.ctx.URL.Path
+	fullPath := string(req.ctx.Path())
 
 	switch fullPath {
 
 		case "/_.js":
 
-			req.ctx.Header().Set("Content-Type", "application/javascript")
-			res.Write(node.config.clientJS.Bytes())
+			req.ctx.Request.Header.Set("Content-Type", "application/javascript")
+			req.ctx.Write(node.config.clientJS.Bytes())
 			return
 
 		case "/_.json":
@@ -45,13 +45,13 @@ func (node *Node) mainHandler(ctx *fasthttp.RequestCtx) {
 			node.config.RUnlock()
 
 			b, err := json.Marshal(tree); if err != nil { req.HttpError(err.Error(), 500); return }
-			res.Header().Set("Content-Type", "application/json")
-			res.Write(b)
+			req.ctx.Request.Header.Set("Content-Type", "application/json")
+			req.ctx.Write(b)
 			return
 
 		case "/robots.txt":
 
-			res.Write([]byte(ROBOTS_TXT))
+			req.ctx.Write([]byte(ROBOTS_TXT))
 			return
 
 		default:
@@ -106,7 +106,7 @@ func (node *Node) mainHandler(ctx *fasthttp.RequestCtx) {
 	}
 
 	ctx.Response.Header.Set("Access-Control-Allow-Origin", "*")
-	if r.Method == "OPTIONS" { return }
+	if req.Method == "OPTIONS" { return }
 
 	handler.Handle(req)
 

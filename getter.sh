@@ -1,3 +1,3 @@
 #! /bin/bash
 
-goapp get -v -u github.com/golangdaddy/gf2
+goapp get -v -u github.com/golangdaddy/girlfriend

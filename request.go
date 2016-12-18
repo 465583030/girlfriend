@@ -13,6 +13,7 @@ type Request struct {
 	ctx *fasthttp.RequestCtx
 	config *Config
 	Node *Node
+	Method string
 	Params map[string]interface{}
 	Object map[string]interface{}
 	Array []interface{}
@@ -25,6 +26,7 @@ func (node *Node) NewRequestObject(ctx *fasthttp.RequestCtx) *Request {
 		ctx:			ctx,
 		config:			node.config,
 		Node:			node,
+		Method:			string(ctx.Method()),
 		Params:			map[string]interface{}{},
 		Object:			Object{},
 		Array:			Array{},
@@ -39,14 +41,14 @@ func (req *Request) Path() string {
 
 func (req *Request) ReadBody(dst interface{}) *ResponseStatus {
 
-	err = json.Unmarshal(req.ctx.PostBody(), dst); if err != nil { return Respond(400, err.Error()) }
+	err := json.Unmarshal(req.ctx.PostBody(), dst); if err != nil { return Respond(400, err.Error()) }
 
 	return nil
 }
 
 func (req *Request) Redirect(path string, code int) *ResponseStatus {
 
-	http.Redirect(req.Res, req.R, path, code)
+	req.ctx.Redirect(path, code)
 
 	return nil
 }
@@ -77,7 +79,7 @@ func (req *Request) HandleStatus(status *ResponseStatus) {
 
 			default:
 
-				req.ctx.Response.Header().Set("Content-Type", "application/json")
+				req.ctx.Response.Header.Set("Content-Type", "application/json")
 				b, err := json.Marshal(status.Value); if err != nil { req.Error(err); break }
 				req.ctx.Write(b)
 				return
@@ -91,5 +93,5 @@ func (req *Request) HandleStatus(status *ResponseStatus) {
 	statusMessage := "HTTP ERROR " + strconv.Itoa(status.Code) + ": " + status.Message
 
 	req.NewError(statusMessage)
-	http.Error(req.Res, statusMessage, status.Code)
+	req.ctx.Error(statusMessage, status.Code)
 }

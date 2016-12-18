@@ -2,7 +2,6 @@ package gf
 
 import	(
 		"bytes"
-		"net/http"
 		)
 
 var gfConfig *Config
@@ -18,7 +17,6 @@ func NewRouter(host string) *Node {
 	gfConfig = &Config{
 		host:				host,
 		activeHandlers:		map[*Handler]struct{}{},
-		router:				&WildcardRouter{http.HandlerFunc(root.mainHandler)},
 		countries:			Countries(),
 		languages:			Languages(),
 		isAppEngine:		true,
@@ -29,7 +27,7 @@ func NewRouter(host string) *Node {
 
 	return root
 }
-
+/*
 // exposes the http router
 func (node *Node) Router() *WildcardRouter {
 
@@ -39,6 +37,7 @@ func (node *Node) Router() *WildcardRouter {
 
 	return node.config.router
 }
+*/
 
 // registry config
 
