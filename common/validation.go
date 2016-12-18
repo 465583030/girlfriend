@@ -236,7 +236,7 @@ func Bool() *ValidationConfig {
 	)
 }
 
-func MSI() *ValidationConfig {
+func MapStringInterface() *ValidationConfig {
 
 	return NewValidationConfig(
 		true,
@@ -250,7 +250,7 @@ func MSI() *ValidationConfig {
 	)
 }
 
-func IA() *ValidationConfig {
+func InterfaceArray() *ValidationConfig {
 
 	return NewValidationConfig(
 		true,
