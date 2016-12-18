@@ -46,7 +46,7 @@ func (config *Config) SetHandlerRegistry(reg Registry) {
 
 }
 
-func (config *Config) getRootFunction(functionKey string) HandlerFunction {
+func (config *Config) GetRootFunction(functionKey string) HandlerFunction {
 
 	if config.RootRegistry == nil { return nil }
 
@@ -57,7 +57,7 @@ func (config *Config) getRootFunction(functionKey string) HandlerFunction {
 	return function
 }
 
-func (config *Config) getHandlerFunction(functionKey string) HandlerFunction {
+func (config *Config) GetHandlerFunction(functionKey string) HandlerFunction {
 
 	config.RLock()
 		function := config.HandlerRegistry[functionKey]

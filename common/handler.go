@@ -143,7 +143,7 @@ func (handler *Handler) Handle(req RequestInterface) {
 
 		case "":
 
-			function := handler.Config.getHandlerFunction(handler.functionKey)
+			function := handler.Config.GetHandlerFunction(handler.functionKey)
 
 			if function == nil { panic("FAILED TO GET FUNCTION WITH KEY: "+handler.functionKey) }
 

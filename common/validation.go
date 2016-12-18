@@ -1,7 +1,6 @@
 package gf
 
 import 	(
-		"html"
 		"reflect"
 		"strconv"
 		"strings"
@@ -76,7 +75,7 @@ func String(ranges ...int) *ValidationConfig {
 
 			if lp == 0 || lp > 64 { return false, nil }
 
-			return true, globalNode.Config.sanitizer.Sanitize(html.UnescapeString(param))
+			return true, globalNode.Config.Sanitize(param)
 		},
 	)
 
