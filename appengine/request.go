@@ -2,12 +2,9 @@ package girlfriend
 
 import 	(
 		"io"
-		"strconv"
 		"net/http"
 		"io/ioutil"
 		"encoding/json"
-		//
-		"github.com/golangdaddy/gaml"
 		//
 		"github.com/golangdaddy/girlfriend/common"
 		)
@@ -16,8 +13,8 @@ type Request struct {
 	config *gf.Config
 	Node *gf.Node
 	method string
-	Res http.ResponseWriter
-	R *http.Request
+	res http.ResponseWriter
+	r *http.Request
 	Params map[string]interface{}
 	Object map[string]interface{}
 	Array []interface{}
@@ -28,12 +25,22 @@ func NewRequestObject(node *gf.Node, res http.ResponseWriter, r *http.Request) *
 	return &Request{
 		config:			node.Config,
 		Node:			node,
-		Res:			res,
-		R: 				r,
+		res:			res,
+		r: 				r,
 		Params:			map[string]interface{}{},
 		Object:			gf.Object{},
 		Array:			gf.Array{},
 	}
+}
+
+func (req *Request) Res() http.ResponseWriter {
+
+	return req.res
+}
+
+func (req *Request) R() *http.Request {
+
+	return req.r
 }
 
 func (req *Request) Path() string {
@@ -48,12 +55,12 @@ func (req *Request) Method() string {
 
 func (req *Request) Writer() io.Writer {
 
-	return req.Res
+	return req.res
 }
 
 func (req *Request) Write(b []byte) {
 
-	req.Res.Write(b)
+	req.res.Write(b)
 }
 
 func (req *Request) Body(k string) interface{} {
@@ -73,12 +80,12 @@ func (req *Request) SetParam(k string, v interface{}) {
 
 func (req *Request) SetHeader(k, v string) {
 
-	req.Res.Header().Set(k, v)
+	req.res.Header().Set(k, v)
 }
 
 func (req *Request) ReadBodyArray() *gf.ResponseStatus {
 
-	body := req.R.Body
+	body := req.r.Body
 
 	b, err := ioutil.ReadAll(body)
 
@@ -93,7 +100,7 @@ func (req *Request) ReadBodyArray() *gf.ResponseStatus {
 
 func (req *Request) ReadBody() *gf.ResponseStatus {
 
-	body := req.R.Body
+	body := req.r.Body
 
 	b, err := ioutil.ReadAll(body)
 
@@ -118,50 +125,13 @@ func (req *Request) Respond(args ...interface{}) *gf.ResponseStatus {
 
 func (req *Request) Redirect(path string, code int) *gf.ResponseStatus {
 
-	http.Redirect(req.Res, req.R, path, code)
+	http.Redirect(req.res, req.r, path, code)
 
 	return nil
 }
 
-func (req *Request) HandleStatus(status *gf.ResponseStatus) {
+func (req *Request) HttpError(msg string, code int) {
 
-	// return with no action if handler returns nil
-	if status == nil { return }
-
-	if status.Code == 200 {
-
-		switch v := status.Value.(type) {
-
-			case nil:
-
-				return
-
-			case *gaml.ELEMENT:
-
-				b, err := v.Render(); if err != nil { req.Error(err); break }
-				req.Res.Write(b)
-				return
-
-			case []byte:
-
-				req.Res.Write(v)
-				return
-
-			default:
-
-				req.Res.Header().Set("Content-Type", "application/json")
-				b, err := json.Marshal(status.Value); if err != nil { req.Error(err); break }
-				req.Res.Write(b)
-				return
-
-		}
-
-		return
-
-	}
-
-	statusMessage := "HTTP ERROR " + strconv.Itoa(status.Code) + ": " + status.Message
-
-	req.NewError(statusMessage)
-	http.Error(req.Res, statusMessage, status.Code)
+	http.Error(req.res, msg, code)
+	req.NewError(msg)
 }

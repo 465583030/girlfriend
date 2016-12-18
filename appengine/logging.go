@@ -1,8 +1,8 @@
 package girlfriend
 
 import 	(
+		"errors"
 		"reflect"
-		"net/http"
 		"encoding/json"
 		//
 		"google.golang.org/appengine"
@@ -11,21 +11,25 @@ import 	(
 
 func (req *Request) Debug(msg string) {
 
-	ctx := appengine.NewContext(req.R)
+	ctx := appengine.NewContext(req.r)
 	log.Debugf(ctx, req.Path() + ": %v", msg)
 
 }
 
-func (req *Request) NewError(msg string) {
+func (req *Request) NewError(msg string) error {
 
-	ctx := appengine.NewContext(req.R)
-	log.Errorf(ctx, req.Path() + ": %v", msg)
+	ctx := appengine.NewContext(req.r)
 
+	err := errors.New(req.Path() + ": " + msg)
+
+	log.Errorf(ctx, err.Error())
+
+	return err
 }
 
 func (req *Request) Error(msg error) {
 
-	ctx := appengine.NewContext(req.R)
+	ctx := appengine.NewContext(req.r)
 	log.Errorf(ctx, req.Path() + ": %v", msg.Error())
 
 }
@@ -41,10 +45,4 @@ func (req *Request) Reflect(e interface{}) {
 func (req *Request) DebugJSON(i interface{}) {
 	b, err := json.Marshal(i); if err != nil { req.Error(err); return }
 	req.Debug(string(b))
-}
-
-func (req *Request) HttpError(msg string, statusCode int) {
-
-	http.Error(req.Res, msg, statusCode)
-	req.NewError(msg)
 }
