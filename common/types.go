@@ -18,7 +18,7 @@ type RequestInterface interface {
 	SetHeader(string, string)
 	ReadBody() *ResponseStatus
 	ReadBodyArray() *ResponseStatus
-	Redirect() *ResponseStatus
+	Redirect(string, int) *ResponseStatus
 	HandleStatus(*ResponseStatus)
 	MSI(string) (bool, Object)
 	IA(string) (bool, Array)
