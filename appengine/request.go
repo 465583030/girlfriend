@@ -56,12 +56,12 @@ func (req *Request) Write(b []byte) {
 	req.Res.Write(b)
 }
 
-func (req *Request) BodyParam(k string) {
+func (req *Request) Body(k string) interface{} {
 
 	return req.Object[k]
 }
 
-func (req *Request) GetParam(k string) interface{} {
+func (req *Request) Param(k string) interface{} {
 
 	return req.Params[k]
 }
