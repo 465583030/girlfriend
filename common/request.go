@@ -2,6 +2,7 @@ package gf
 
 import 	(
 		"io"
+		"net/http"
 		)
 
 type RequestInterface interface {
@@ -20,4 +21,7 @@ type RequestInterface interface {
 	Write([]byte)
 	Fail() *ResponseStatus
 	Respond(args ...interface{}) *ResponseStatus
+	//
+	Res() http.ResponseWriter
+	R() *http.Request
 }
