@@ -85,7 +85,7 @@ func (handler *Handler) Handle(req RequestInterface) {
 
 					case string:
 
-						value := req.BodyParam(key)
+						value := req.Body(key)
 
 						ok, s := validation.bodyFunction(req, value.(string)); if !ok { break }
 
@@ -95,7 +95,7 @@ func (handler *Handler) Handle(req RequestInterface) {
 
 					case float64:
 
-						value := req.BodyParam(key)
+						value := req.Body(key)
 
 						ok, s := validation.bodyFunction(req, value.(float64)); if !ok { break }
 
@@ -105,7 +105,7 @@ func (handler *Handler) Handle(req RequestInterface) {
 
 					case bool:
 
-						value := req.BodyParam(key)
+						value := req.Body(key)
 
 						ok, s := validation.bodyFunction(req, value.(bool)); if !ok { break }
 
@@ -115,7 +115,7 @@ func (handler *Handler) Handle(req RequestInterface) {
 
 					case []interface{}:
 
-						value := req.BodyParam(key)
+						value := req.Body(key)
 
 						ok, s := validation.bodyFunction(req, value.(string)); if !ok { break }
 

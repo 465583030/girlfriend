@@ -7,8 +7,8 @@ import 	(
 type RequestInterface interface {
 	Path() string
 	Method() string
-	BodyParam(string) interface{}
-	GetParam(string) interface{}
+	Body(string) interface{}
+	Param(string) interface{}
 	SetParam(string, interface{})
 	SetHeader(string, string)
 	ReadBody() *ResponseStatus
