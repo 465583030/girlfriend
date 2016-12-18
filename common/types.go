@@ -30,4 +30,5 @@ type RequestInterface interface {
 	Writer() io.Writer
 	Write([]byte)
 	Fail() *ResponseStatus
+	Respond(args ...interface{}) *ResponseStatus
 }
