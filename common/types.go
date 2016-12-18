@@ -7,13 +7,10 @@ import 	(
 type Array []interface{}
 type Object map[string]interface{}
 
-type HandlerFunction func (RequestInterface) *ResponseStatus
-
-type Registry map[string]func (RequestInterface) *ResponseStatus
-
 type RequestInterface interface {
 	Path() string
 	Method() string
+	GetParam(string) interface{}
 	SetParam(string, interface{})
 	SetHeader(string, string)
 	ReadBody() *ResponseStatus
@@ -32,3 +29,7 @@ type RequestInterface interface {
 	Fail() *ResponseStatus
 	Respond(args ...interface{}) *ResponseStatus
 }
+
+type HandlerFunction func (RequestInterface) *ResponseStatus
+
+type Registry map[string]func (RequestInterface) *ResponseStatus
