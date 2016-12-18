@@ -29,4 +29,5 @@ type RequestInterface interface {
 	HttpError(string, int)
 	Writer() io.Writer
 	Write([]byte)
+	Fail() *ResponseStatus
 }
