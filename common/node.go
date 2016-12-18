@@ -87,7 +87,7 @@ func (node *Node) Next(req RequestInterface, pathSegment string) (*Node, *Respon
 
 	if next == nil { return nil, nil }
 
-	ok, value := next.validation.function(req, pathSegment); if !ok {
+	ok, value := next.validation.pathFunction(req, pathSegment); if !ok {
 
 		return nil, &ResponseStatus{nil, 400, fmt.Sprintf("UNEXPECTED VALUE  %v, %v", pathSegment, next.validation.Expecting())}
 

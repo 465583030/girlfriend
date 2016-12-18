@@ -1,7 +1,6 @@
 package gf
 
 import	(
-		"html"
 		"strings"
 		"reflect"
 		temp "html/template"
@@ -76,43 +75,51 @@ func (handler *Handler) Handle(req RequestInterface) {
 
 			status := req.ReadBodyArray(); if status != nil { req.HandleStatus(status); return }
 
-		case map[string]interface{}:
+		case map[string]*ValidationConfig:
 
 			status := req.ReadBody(); if status != nil { req.HandleStatus(status); return }
+			
+			for key, validation := range v {
 
-			for key, value := range v {
-
-				switch v := value.(type) {
+				switch v := validation.model.(type) {
 
 					case string:
 
-						ok, s := req.String(key); if !ok { break }
+						value := req.BodyParam(key)
 
-						req.SetParam("_" + key, html.UnescapeString(s))
+						ok, s := validation.bodyFunction(req, value.(string)); if !ok { break }
+
+						req.SetParam("_" + key, s)
 
 						continue
 
 					case float64:
 
-						ok, f := req.Float64(key); if !ok { break }
+						value := req.BodyParam(key)
 
-						req.SetParam("_" + key, f)
+						ok, s := validation.bodyFunction(req, value.(float64)); if !ok { break }
+
+						req.SetParam("_" + key, s)
 
 						continue
 
 					case bool:
 
-						ok, b := req.Bool(key); if !ok { break }
+						value := req.BodyParam(key)
 
-						req.SetParam("_" + key, b)
+						ok, s := validation.bodyFunction(req, value.(bool)); if !ok { break }
+
+						req.SetParam("_" + key, s)
 
 						continue
 
 					case []interface{}:
 
-						ok, a := req.IA(key); if !ok { break }
+						value := req.BodyParam(key)
 
-						req.SetParam("_" + key, a)
+						ok, s := validation.bodyFunction(req, value.(string)); if !ok { break }
+
+						req.SetParam("_" + key, s)
 
 						continue
 
