@@ -48,6 +48,11 @@ func (req *Request) BodyArray() []interface{} {
 	return req.Array
 }
 
+func (req *Request) BodyObject() map[string]interface{} {
+
+	return req.Object
+}
+
 func (req *Request) Path() string {
 
 	return req.Node.Path
