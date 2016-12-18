@@ -25,6 +25,7 @@ type RequestInterface interface {
 	NewError(string) error
 	Error(error)
 	DebugJSON(interface{})
+	Reflect(interface{})
 	//
 	Res() http.ResponseWriter
 	R() *http.Request
