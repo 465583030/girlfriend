@@ -34,13 +34,23 @@ func NewRequestObject(node *gf.Node, ctx *fasthttp.RequestCtx) *Request {
 	}
 }
 
+func (req *Request) Fail() *gf.ResponseStatus {
+
+	return gf.Fail()
+}
+
+func (req *Request) Respond(args ...interface{}) *gf.ResponseStatus {
+
+	return gf.Respond(args)
+}
+
 func (req *Request) Path() string {
-	
+
 	return req.Node.Path
 }
 
 func (req *Request) Method() string {
-	
+
 	return req.method
 }
 
@@ -53,8 +63,13 @@ func (req *Request) Write(b []byte) {
 	req.ctx.Write(b)
 }
 
+func (req *Request) GetParam(k string) interface{} {
+
+	return req.Params[k]
+}
+
 func (req *Request) SetParam(k string, v interface{}) {
-	
+
 	req.Params[k] = v
 }
 
