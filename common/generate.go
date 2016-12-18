@@ -22,7 +22,7 @@ func (handler *Handler) GenerateClientJS() error {
 	payload := "null"
 
 	args := []string{}
-	for _, vc := range handler.node.validations { args = append(args, vc.Keys()) }
+	for _, vc := range handler.node.validations { args = append(args, vc.Key()) }
 
 	if len(args) > 0 {
 		script = append(script, strings.Join(args, ", "))

@@ -21,6 +21,11 @@ type ValidationConfig struct {
 	max int
 }
 
+func (vc *ValidationConfig) Key() string {
+
+	return vc.keys[0]
+}
+
 func (vc *ValidationConfig) Keys() string {
 
 	return strings.Join(vc.keys, "_")
