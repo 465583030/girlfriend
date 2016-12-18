@@ -52,7 +52,7 @@ func NewValidationConfig(validationType interface{}, pathFunction PathValidation
 	}
 }
 
-// Returns a validation function that checks for a string with a length within optional range
+// Returns a validation object that checks for a string with a length within optional range
 func String(ranges ...int) *ValidationConfig {
 
 	var min, max int
@@ -103,6 +103,7 @@ func String(ranges ...int) *ValidationConfig {
 	return config
 }
 
+// Returns a validation object which checks for delimiter-separated string like CSV
 func SplitString(delimiter string) *ValidationConfig {
 
 	return NewValidationConfig(
@@ -146,7 +147,7 @@ func SplitString(delimiter string) *ValidationConfig {
 	)
 }
 
-// Returns a validation function that checks for an int which parses correctly
+// Returns a validation object that checks for an int which parses correctly
 func Int() *ValidationConfig {
 
 	return NewValidationConfig(
@@ -168,6 +169,7 @@ func Int() *ValidationConfig {
 	)
 }
 
+// Returns a validation object that checks for an int64 which parses correctly
 func Int64() *ValidationConfig {
 
 	return NewValidationConfig(
@@ -189,6 +191,7 @@ func Int64() *ValidationConfig {
 	)
 }
 
+// Returns a validation object that checks for a float64 which parses correctly
 func Float64() *ValidationConfig {
 
 	return NewValidationConfig(
@@ -210,6 +213,7 @@ func Float64() *ValidationConfig {
 	)
 }
 
+// Returns a validation object that checks for a bool which parses correctly
 func Bool() *ValidationConfig {
 
 	return NewValidationConfig(
@@ -236,6 +240,7 @@ func Bool() *ValidationConfig {
 	)
 }
 
+// Returns a validation object for request body that checks a property to see if it's an object
 func MapStringInterface() *ValidationConfig {
 
 	return NewValidationConfig(
@@ -250,6 +255,7 @@ func MapStringInterface() *ValidationConfig {
 	)
 }
 
+// Returns a validation object for request body that checks a property to see if it's an array
 func InterfaceArray() *ValidationConfig {
 
 	return NewValidationConfig(
@@ -264,8 +270,7 @@ func InterfaceArray() *ValidationConfig {
 	)
 }
 
-//
-
+// Returns a validation object that checks to see if it can resolve to a country struct
 func CountryISO2() *ValidationConfig {
 		
 	return NewValidationConfig(
@@ -295,6 +300,7 @@ func CountryISO2() *ValidationConfig {
 	)
 }
 
+// Returns a validation object that checks to see if it can resolve to a language struct
 func LanguageISO2() *ValidationConfig {
 		
 	return NewValidationConfig(
