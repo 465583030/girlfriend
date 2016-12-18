@@ -72,11 +72,11 @@ func (handler *Handler) Handle(req RequestInterface) {
 
 		case []interface{}:
 
-			status := req.ReadBodyArray(); if status != nil { req.HandleStatus(status); return }
+			status := req.ReadBodyArray(); if status != nil { HandleStatus(req, status); return }
 
 		case map[string]*ValidationConfig:
 
-			status := req.ReadBody(); if status != nil { req.HandleStatus(status); return }
+			status := req.ReadBody(); if status != nil { HandleStatus(req, status); return }
 			
 			for key, validation := range v {
 
@@ -102,7 +102,7 @@ func (handler *Handler) Handle(req RequestInterface) {
 
 			if function == nil { panic("FAILED TO GET FUNCTION WITH KEY: "+handler.functionKey) }
 
-			req.HandleStatus(function(req))
+			HandleStatus(req, function(req))
 
 		case "file":
 

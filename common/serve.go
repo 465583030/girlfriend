@@ -54,7 +54,7 @@ func (node *Node) MainHandler(req RequestInterface, fullPath string) {
 
 			if rootFunc != nil {
 
-				req.HandleStatus(rootFunc(req))
+				HandleStatus(req, rootFunc(req))
 				return
 
 			}
@@ -73,7 +73,7 @@ func (node *Node) MainHandler(req RequestInterface, fullPath string) {
 
 		if status != nil {
 
-			req.HandleStatus(status)
+			HandleStatus(req, status)
 			return
 
 		}
