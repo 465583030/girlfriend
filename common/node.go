@@ -72,6 +72,7 @@ func (node *Node) Param(config *ValidationConfig, keys ...string) *Node {
 
 // traversal
 
+// finds next node according to supplied URL path segment
 func (node *Node) next(req RequestInterface, pathSegment string) (*Node, *ResponseStatus) {
 
 	// check for child routes
