@@ -101,6 +101,11 @@ func (req *Request) Fail() *gf.ResponseStatus {
 	return gf.Fail()
 }
 
+func (req *Request) Respond(args ...interface{}) *gf.ResponseStatus {
+
+	return gf.Respond(args)
+}
+
 func (req *Request) Redirect(path string, code int) *gf.ResponseStatus {
 
 	http.Redirect(req.Res, req.R, path, code)
