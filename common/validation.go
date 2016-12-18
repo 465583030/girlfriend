@@ -236,6 +236,34 @@ func Bool() *ValidationConfig {
 	)
 }
 
+func MSI() *ValidationConfig {
+
+	return NewValidationConfig(
+		true,
+		nil,
+		func (req RequestInterface, param interface{}) (bool, interface{}) {
+
+			x, ok := param.(Object); if !ok { return false, nil }
+
+			return false, x
+		},
+	)
+}
+
+func IA() *ValidationConfig {
+
+	return NewValidationConfig(
+		true,
+		nil,
+		func (req RequestInterface, param interface{}) (bool, interface{}) {
+
+			x, ok := param.(Array); if !ok { return false, nil }
+
+			return false, x
+		},
+	)
+}
+
 //
 
 func CountryISO2() *ValidationConfig {
