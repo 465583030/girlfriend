@@ -98,7 +98,7 @@ func SplitString(delimiter string) *ValidationConfig {
 			
 			list := []string{}
 
-			for _, part := range strings.Split(globalNode.Config.sanitizer.Sanitize(html.UnescapeString(param)), delimiter) {
+			for _, part := range strings.Split(globalNode.Config.Sanitize(param), delimiter) {
 
 				if len(part) == 0 { continue }
 

@@ -2,6 +2,7 @@ package gf
 
 import 	(
 		"sync"
+		"html"
 		"bytes"
 		//
 		"github.com/microcosm-cc/bluemonday"
@@ -17,6 +18,11 @@ type Config struct {
 	languages map[string]*Language
 	sanitizer *bluemonday.Policy
 	sync.RWMutex
+}
+
+func (config *Config) Sanitize(s string) string {
+
+	return config.sanitizer.Sanitize(html.UnescapeString(s))
 }
 
 // Allows the setting of the registry
