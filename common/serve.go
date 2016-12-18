@@ -10,7 +10,7 @@ const	(
 		)
 
 // main handler
-func (node *Node) mainHandler(req RequestInterface, fullPath string) {
+func (node *Node) MainHandler(req RequestInterface, fullPath string) {
 
 	switch fullPath {
 
