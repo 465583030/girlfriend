@@ -37,12 +37,12 @@ func NewRequestObject(node *gf.Node, res http.ResponseWriter, r *http.Request) *
 }
 
 func (req *Request) Path() string {
-	
+
 	return req.Node.Path
 }
 
 func (req *Request) Method() string {
-	
+
 	return req.method
 }
 
@@ -61,7 +61,7 @@ func (req *Request) BodyParam(k string) {
 	return req.Object[k]
 }
 
-func (req *Request) GetParam(k string) {
+func (req *Request) GetParam(k string) interface{} {
 
 	return req.Params[k]
 }
