@@ -36,6 +36,7 @@ func (node *Node) MainHandler(req RequestInterface, fullPath string) {
 			node.Config.RUnlock()
 
 			HandleStatus(req, req.Respond(tree))
+			return
 
 		case "/robots.txt":
 
