@@ -29,9 +29,7 @@ func (node *Node) MainHandler(req RequestInterface, fullPath string) {
 
 			for handler, _ := range node.Config.activeHandlers {
 
-				spec := handler.Spec()
-
-				tree = append(tree, spec)
+				tree = append(tree, handler.Spec())
 
 			}
 
