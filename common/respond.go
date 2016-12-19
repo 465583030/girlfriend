@@ -53,8 +53,6 @@ func Respond(args ...interface{}) *ResponseStatus {
 
 func HandleStatus(req RequestInterface, status *ResponseStatus) {
 
-	req.DebugJSON(status)
-
 	// return with no action if handler returns nil
 	if status == nil { return }
 
