@@ -27,6 +27,7 @@ func NewRequestObject(node *gf.Node, res http.ResponseWriter, r *http.Request) *
 		Node:			node,
 		res:			res,
 		r: 				r,
+		method:			r.Method,
 		Params:			map[string]interface{}{},
 		Object:			gf.Object{},
 		Array:			gf.Array{},
