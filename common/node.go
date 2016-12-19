@@ -108,7 +108,7 @@ func (node *Node) handler(req RequestInterface) *Handler {
 
 	node.RUnlock()
 
-	if handler == nil { req.DebugJSON(node.methods[req.Method()]) }
+	if handler == nil { req.DebugJSON(node.methods) }
 
 	return handler
 }
