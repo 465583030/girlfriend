@@ -131,7 +131,7 @@ func (req *Request) Fail() *gf.ResponseStatus {
 
 func (req *Request) Respond(args ...interface{}) *gf.ResponseStatus {
 
-	return gf.Respond(args)
+	return gf.Respond(args...)
 }
 
 func (req *Request) Redirect(path string, code int) *gf.ResponseStatus {
