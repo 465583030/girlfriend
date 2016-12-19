@@ -35,8 +35,6 @@ func (node *Node) MainHandler(req RequestInterface, fullPath string) {
 
 			node.Config.RUnlock()
 
-			req.DebugJSON(tree)
-
 			HandleStatus(req, req.Respond(tree))
 			return
 
