@@ -108,7 +108,13 @@ func (node *Node) handler(req RequestInterface) *Handler {
 
 	node.RUnlock()
 
-	if handler == nil { req.DebugJSON(node.methods) }
+	// removeme
+	if handler == nil {
+		req.Debug("LISTING HANDLERS AS NOT FOUND: "+req.Method())
+		for method, _ := range node.methods {
+			req.Debug(method)
+		}
+	}
 
 	return handler
 }
