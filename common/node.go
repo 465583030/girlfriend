@@ -87,15 +87,19 @@ func (node *Node) Next(req RequestInterface, pathSegment string) (*Node, *Respon
 
 	if next == nil { return nil, nil }
 
-	ok, value := next.validation.pathFunction(req, pathSegment); if !ok {
+	if next.validation != nil {
 
-		return nil, &ResponseStatus{nil, 400, fmt.Sprintf("UNEXPECTED VALUE  %v, %v", pathSegment, next.validation.Expecting())}
+		ok, value := next.validation.pathFunction(req, pathSegment); if !ok {
+
+			return nil, &ResponseStatus{nil, 400, fmt.Sprintf("UNEXPECTED VALUE  %v, %v", pathSegment, next.validation.Expecting())}
+
+		}
+
+		// write route params into request object
+
+		for _, key := range next.validation.keys { req.SetParam(key, value) }
 
 	}
-
-	// write route params into request object
-
-	for _, key := range next.validation.keys { req.SetParam(key, value) }
 
 	return next, nil
 }
