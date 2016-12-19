@@ -2,12 +2,14 @@ package girlfriend
 
 import (
   "testing"
+  //"net/http"
+  //"net/http/httptest"
   //
-  "github.com/valyala/fasthttp"
-  "github.com/golangdaddy/girlfriend/common"
+  //"github.com/golangdaddy/girlfriend/common"
 )
 
 func BenchmarkMainHandler1000000(b *testing.B) {
+  /* Doesn't work
   root, _ := NewRouter("peach")
   config := root.Config
 
@@ -15,14 +17,18 @@ func BenchmarkMainHandler1000000(b *testing.B) {
 
   config.SetHandlerRegistry(gf.Registry{
     "handler": func (req gf.RequestInterface) *gf.ResponseStatus {
-      return gf.Respond(map[string]interface{}{})
+      return gf.Respond("")
     },
   })
   node.GET("handler")
 
-  ctx := &fasthttp.RequestCtx{}
+  w := httptest.NewRecorder()
+
+  req, err := http.NewRequest("GET", "/path", nil)
+  if err != nil { b.Error(err) }
 
   for i := 0; i < b.N; i++ {
-    root.MainHandler(NewRequestObject(root, ctx), "/path")
+    root.MainHandler(NewRequestObject(root, w, req), "/path")
   }
+  */
 }
