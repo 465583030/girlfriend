@@ -2,7 +2,6 @@ package gf
 
 import (
 		"strings"
-		"encoding/json"
 		)
 
 const	(
@@ -38,9 +37,7 @@ func (node *Node) MainHandler(req RequestInterface, fullPath string) {
 
 			node.Config.RUnlock()
 
-			b, err := json.Marshal(tree); if err != nil { req.HttpError(err.Error(), 500); return }
-			req.SetHeader("Content-Type", "application/json")
-			req.Write(b)
+			HandleStatus(req, req.Respond(tree))
 			return
 
 		case "/robots.txt":
