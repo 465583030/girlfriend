@@ -4,7 +4,6 @@ import 	(
 		"reflect"
 		"strconv"
 		"strings"
-		//
 		)
 
 const 	(
@@ -83,7 +82,7 @@ func String(ranges ...int) *ValidationConfig {
 
 			if lp < min || lp > max { return false, nil }
 
-			return true, globalNode.Config.Sanitize(param)
+			return true, strings.TrimSpace(globalNode.Config.Sanitize(param))
 		},
 		func (req RequestInterface, param interface{}) (bool, interface{}) {
 
@@ -93,7 +92,7 @@ func String(ranges ...int) *ValidationConfig {
 
 			if lp < min || lp > max { return false, nil }
 
-			return true, globalNode.Config.Sanitize(s)
+			return true, strings.TrimSpace(globalNode.Config.Sanitize(s))
 		},
 	)
 
