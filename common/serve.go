@@ -23,15 +23,13 @@ func (node *Node) MainHandler(req RequestInterface, fullPath string) {
 
 			// render the handler documentation
 
-			tree := map[string]*HandlerSpec{}
+			tree := []*HandlerSpec{}
 
 			node.Config.RLock()
 
 			for handler, _ := range node.Config.activeHandlers {
 
-				spec := handler.Spec()
-
-				tree[spec.Endpoint] = spec
+				tree = append(tree, handler.Spec())
 
 			}
 
