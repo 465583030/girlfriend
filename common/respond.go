@@ -48,7 +48,7 @@ func Respond(args ...interface{}) *ResponseStatus {
 
 	}
 
-	return nil
+	return nil // Unreachable code warning
 }
 
 func HandleStatus(req RequestInterface, status *ResponseStatus) {

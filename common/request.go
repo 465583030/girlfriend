@@ -10,6 +10,7 @@ type RequestInterface interface {
 	Method() string
 	Body(string) interface{}
 	Param(string) interface{}
+	StrParam(string) string
 	SetParam(string, interface{})
 	SetHeader(string, string)
 	ReadBody() *ResponseStatus

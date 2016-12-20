@@ -50,6 +50,11 @@ func (req *Request) BodyArray() []interface{} {
 	return req.Array
 }
 
+func (req *Request) BodyObject() map[string]interface{} {
+
+	return req.Object
+}
+
 func (req *Request) Path() string {
 
 	return req.Node.Path
@@ -77,6 +82,11 @@ func (req *Request) Body(k string) interface{} {
 func (req *Request) Param(k string) interface{} {
 
 	return req.Params[k]
+}
+
+func (req *Request) StrParam(k string) string {
+
+	return req.Param(k).(string)
 }
 
 func (req *Request) SetParam(k string, v interface{}) {
@@ -125,4 +135,3 @@ func (req *Request) HttpError(msg string, code int) {
 	req.ctx.Error(msg, code)
 	req.NewError(msg)
 }
-
