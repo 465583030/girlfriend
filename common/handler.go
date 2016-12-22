@@ -114,6 +114,8 @@ func (handler *Handler) Handle(req RequestInterface) {
 
 			name := path[len(path)-1]
 
+			req.SetHeader("Content-Type", "text/html")
+
 			err := handler.template.ExecuteTemplate(req.Writer(), name, nil); if err != nil { panic(err) }
 
 		case "folder":
