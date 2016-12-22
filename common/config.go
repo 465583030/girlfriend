@@ -12,6 +12,7 @@ type Config struct {
 	Host string
 	RootRegistry Registry
 	HandlerRegistry Registry
+	lDelim, rDelim string
 	activeHandlers map[*Handler]struct{}
 	clientJS *bytes.Buffer
 	countries map[string]*Country
@@ -23,6 +24,14 @@ type Config struct {
 func (config *Config) Sanitize(s string) string {
 
 	return config.sanitizer.Sanitize(html.UnescapeString(s))
+}
+
+func (config *Config) SetDelims(l, r string) {
+
+	config.Lock()
+		config.lDelim = l
+		config.rDelim = r
+	config.Unlock()
 }
 
 // Allows the setting of the registry

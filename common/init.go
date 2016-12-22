@@ -22,6 +22,8 @@ func init() {
 		languages:			Languages(),
 		clientJS:			bytes.NewBuffer(nil),
 		sanitizer:			bluemonday.StrictPolicy(),
+		lDelim:				"{{",
+		rDelim:				"}}",
 	}
 
 }

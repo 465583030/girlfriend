@@ -119,7 +119,7 @@ func (node *Node) handler(req RequestInterface) *Handler {
 
 func (node *Node) Template(templatePath string) *Node {
 
-	t, err := temp.New("").ParseFiles(templatePath); if err != nil { panic(err) }
+	t, err := temp.New("").Delims(node.Config.lDelim, node.Config.rDelim).ParseFiles(templatePath); if err != nil { panic(err) }
 
 	h := &Handler{
 		handlerType:			"file",
