@@ -84,6 +84,11 @@ func (req *Request) Param(k string) interface{} {
 	return req.Params[k]
 }
 
+func (req *Request) StrParam(k string) string {
+
+	return req.Param(k).(string)
+}
+
 func (req *Request) SetParam(k string, v interface{}) {
 
 	req.Params[k] = v
@@ -130,4 +135,3 @@ func (req *Request) HttpError(msg string, code int) {
 	req.ctx.Error(msg, code)
 	req.NewError(msg)
 }
-
