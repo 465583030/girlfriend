@@ -106,7 +106,11 @@ func (handler *Handler) Handle(req RequestInterface) {
 
 		case "file":
 
-			err := handler.template.Execute(req.Writer(), nil); if err != nil { panic(err) }
+			path := strings.Split(handler.templatePath, "/")
+
+			name := path[len(path)-1]
+
+			err := handler.template.ExecuteTemplate(req.Writer(), name, nil); if err != nil { panic(err) }
 
 		case "folder":
 
