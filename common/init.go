@@ -1,7 +1,6 @@
 package gf
 
 import 	(
-		"bytes"
 		//
 		"github.com/microcosm-cc/bluemonday"
 		)
@@ -20,7 +19,6 @@ func init() {
 		activeHandlers:		map[*Handler]struct{}{},
 		countries:			Countries(),
 		languages:			Languages(),
-		clientJS:			bytes.NewBuffer(nil),
 		sanitizer:			bluemonday.StrictPolicy(),
 		lDelim:				"{{",
 		rDelim:				"}}",

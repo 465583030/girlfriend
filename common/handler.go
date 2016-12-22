@@ -1,6 +1,8 @@
 package gf
 
 import	(
+		"sync"
+		"bytes"
 		"strings"
 		temp "html/template"
 		)
@@ -16,6 +18,8 @@ type Handler struct {
 	templatePath string
 	responseSchema interface{}
 	payloadSchema interface{}
+	clientJS *bytes.Buffer
+	sync.RWMutex
 }
 
 func (handler *Handler) Name() string {

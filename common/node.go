@@ -9,17 +9,12 @@ import	(
 
 type Node struct {
 	Config *Config
-	//root *Node 								`json:"-"`
-	//parent *Node 							`json:"-"`
-	// node
 	Path string
 	param *Node
 	routes map[string]*Node
 	methods map[string]*Handler
-	postScheme interface{}
 	validation *ValidationConfig
 	validations []*ValidationConfig
-	// misc
 	sync.RWMutex
 }
 

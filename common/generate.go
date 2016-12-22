@@ -1,12 +1,15 @@
 package gf
 
 import	(
+		"bytes"
 		"strings"
 		"html/template"
 		)
 
 
 func (handler *Handler) GenerateClientJS() error {
+
+	clientJS := bytes.NewBuffer(nil)
 
 	domain := strings.Title(handler.Config.Host)
 	handlerName := handler.Name()
@@ -42,7 +45,13 @@ func (handler *Handler) GenerateClientJS() error {
 	script = append(script, str)
 
 	t, err := template.New("").Parse(strings.Join(script, "")); if err != nil { return err }
-	err = t.Execute(handler.Config.clientJS, handler); if err != nil { return err }
+	err = t.Execute(clientJS, handler); if err != nil { return err }
+
+	handler.Lock()
+
+		handler.clientJS = clientJS
+
+	handler.Unlock()
 
 	return nil
 }

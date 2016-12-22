@@ -16,7 +16,13 @@ func (node *Node) MainHandler(req RequestInterface, fullPath string) {
 		case "/_.js":
 
 			req.SetHeader("Content-Type", "application/javascript")
-			req.Write(node.Config.clientJS.Bytes())
+			
+			for handler, _ := range node.Config.activeHandlers {
+
+				req.Write(handler.clientJS.Bytes())
+
+			}
+			
 			return
 
 		case "/_.json":

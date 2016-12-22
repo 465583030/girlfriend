@@ -3,7 +3,6 @@ package gf
 import 	(
 		"sync"
 		"html"
-		"bytes"
 		//
 		"github.com/microcosm-cc/bluemonday"
 		)
@@ -14,7 +13,6 @@ type Config struct {
 	HandlerRegistry Registry
 	lDelim, rDelim string
 	activeHandlers map[*Handler]struct{}
-	clientJS *bytes.Buffer
 	countries map[string]*Country
 	languages map[string]*Language
 	sanitizer *bluemonday.Policy
