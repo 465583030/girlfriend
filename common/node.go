@@ -51,7 +51,7 @@ func (node *Node) Add(path string) *Node {
 	return n
 }
 
-// Adds a new param-node 
+// Adds a new param-node
 func (node *Node) Param(config *ValidationConfig, keys ...string) *Node {
 
 	if len(keys) == 0 { panic("NO KEYS SUPPLIED FOR NEW PARAMETER") }
