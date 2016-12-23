@@ -74,6 +74,11 @@ func (req *Request) Write(b []byte) {
 	req.ctx.Write(b)
 }
 
+func (req *Request) ServeFile(path string) {
+
+	fasthttp.ServeFile(req.ctx, path)
+}
+
 func (req *Request) Body(k string) interface{} {
 
 	return req.Object[k]
