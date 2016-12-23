@@ -66,11 +66,22 @@ func (node *Node) MainHandler(req RequestInterface, fullPath string) {
 
 	next := node
 
+	var lastSegment string
+
 	for _, pathParam := range segments {
 
 		if len(pathParam) == 0 { break }
 
+		lastSegment = pathParam
+
 		n, status := next.Next(req, pathParam)
+
+		if n == next {
+
+			// handler is a folder
+
+			break
+		}
 
 		if status != nil {
 
@@ -103,6 +114,6 @@ func (node *Node) MainHandler(req RequestInterface, fullPath string) {
 	req.SetHeader("Access-Control-Allow-Origin", "*")
 	if req.Method() == "OPTIONS" { return }
 
-	handler.Handle(req)
+	handler.Handle(req, lastSegment)
 
 }

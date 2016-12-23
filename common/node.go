@@ -82,6 +82,16 @@ func (node *Node) Next(req RequestInterface, pathSegment string) (*Node, *Respon
 
 	if next == nil { return nil, nil }
 
+	// check for file glob
+
+	handler := node.methods["GET"]
+
+	if handler != nil && handler.isFolder {
+
+		return node, nil
+
+	}
+
 	if next.validation != nil {
 
 		ok, value := next.validation.pathFunction(req, pathSegment); if !ok {
@@ -123,7 +133,7 @@ func (node *Node) Template(templatePath string) *Node {
 	t, err := node.newTemplate().ParseFiles(templatePath); if err != nil { panic(err) }
 
 	h := &Handler{
-		handlerType:			"file",
+		isFile:					true,
 		template:				t,
 		templatePath:			templatePath,
 		templateType:			"text/html",
@@ -139,7 +149,7 @@ func (node *Node) TemplateFolder(globPath string) *Node {
 	t, err := node.newTemplate().ParseGlob(globPath); if err != nil { panic(err) }
 
 	h := &Handler{
-		handlerType:			"folder",
+		isFolder:				true,
 		template:				t,
 		templatePath:			globPath,
 		templateType:			"text/html",
@@ -155,7 +165,7 @@ func (node *Node) File(templatePath, contentType string) *Node {
 	t, err := node.newTemplate().ParseFiles(templatePath); if err != nil { panic(err) }
 
 	h := &Handler{
-		handlerType:			"file",
+		isFile:					true,
 		template:				t,
 		templatePath:			templatePath,
 		templateType:			contentType,

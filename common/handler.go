@@ -29,7 +29,9 @@ type Handler struct {
 	node *Node
 	method string
 	functionKey string
-	handlerType string
+	function HandlerFunction
+	isFile bool
+	isFolder bool
 	template *temp.Template
 	templatePath string
 	templateType string
@@ -81,7 +83,7 @@ func (handler *Handler) ApiUrl() string {
 	return "'" + name + "'"
 }
 
-func (handler *Handler) Handle(req RequestInterface) {
+func (handler *Handler) Handle(req RequestInterface, pathSegment string) {
 
 	// handle payload
 
@@ -113,32 +115,43 @@ func (handler *Handler) Handle(req RequestInterface) {
 
 	}
 
-	// serve output
+	if handler.isFile && handler.isFolder {
 
-	switch handler.handlerType {
+		function := handler.Config.GetHandlerFunction(handler.functionKey)
 
-		case "":
+		if function == nil { panic("FAILED TO GET FUNCTION WITH KEY: "+handler.functionKey) }
 
-			function := handler.Config.GetHandlerFunction(handler.functionKey)
+		HandleStatus(req, function(req))
 
-			if function == nil { panic("FAILED TO GET FUNCTION WITH KEY: "+handler.functionKey) }
+		return
+	}
 
-			HandleStatus(req, function(req))
+	if handler.isFolder {
 
-		case "file":
+		path := strings.Split(handler.templatePath, "/")
 
-			path := strings.Split(handler.templatePath, "/")
+		name := path[len(path)-1]
 
-			name := path[len(path)-1]
+		req.SetHeader("Content-Type", handler.templateType)
 
-			req.SetHeader("Content-Type", handler.templateType)
+		// serve a template added with the .Template(...) method
+		err := handler.template.ExecuteTemplate(req.Writer(), name, nil); if err != nil { panic(err) }
 
-			err := handler.template.ExecuteTemplate(req.Writer(), name, nil); if err != nil { panic(err) }
+		return
 
-		case "folder":
+	}
 
-			// serve a template added with the .Template(...) method
-			err := handler.template.ExecuteTemplate(req.Writer(), handler.templatePath, nil); if err != nil { panic(err) }
+	if handler.isFile {
+
+		path := strings.Split(handler.templatePath, "/")
+
+		name := path[len(path)-1]
+
+		req.SetHeader("Content-Type", handler.templateType)
+
+		err := handler.template.ExecuteTemplate(req.Writer(), name, nil); if err != nil { panic(err) }
+
+		return
 
 	}
 
