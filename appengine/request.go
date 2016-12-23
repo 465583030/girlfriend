@@ -74,6 +74,11 @@ func (req *Request) Write(b []byte) {
 	req.res.Write(b)
 }
 
+func (req *Request) ServeFile(path string) {
+
+	http.ServeFile(req.Res(), req.R(), path)
+}
+
 func (req *Request) Body(k string) interface{} {
 
 	return req.Object[k]
