@@ -128,14 +128,9 @@ func (handler *Handler) Handle(req RequestInterface, pathSegment string) {
 
 	if handler.isFolder {
 
-		path := strings.Split(handler.templatePath, "/")
-
-		name := path[len(path)-1]
-
 		req.SetHeader("Content-Type", handler.templateType)
 
-		// serve a template added with the .Template(...) method
-		err := handler.template.ExecuteTemplate(req.Writer(), name, nil); if err != nil { panic(err) }
+		req.ServeFile(handler.templatePath + "/" + pathSegment)
 
 		return
 
@@ -149,6 +144,7 @@ func (handler *Handler) Handle(req RequestInterface, pathSegment string) {
 
 		req.SetHeader("Content-Type", handler.templateType)
 
+		// serve a template added with the .Template(...) method
 		err := handler.template.ExecuteTemplate(req.Writer(), name, nil); if err != nil { panic(err) }
 
 		return
