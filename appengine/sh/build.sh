@@ -1,5 +1,4 @@
 goapp build . &&
 git add -A &&
-git commit -m "auto" &&
-git push origin master &&
-sh sh_get
+git commit -m "auto girlfriend/appengine" &&
+git push origin master
