@@ -18,6 +18,7 @@ type RequestInterface interface {
 	BodyArray() []interface{}
 	BodyObject() map[string]interface{}
 	Redirect(string, int) *ResponseStatus
+	ServeFile(string)
 	HttpError(string, int)
 	Writer() io.Writer
 	Write([]byte)
