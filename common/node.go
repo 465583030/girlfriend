@@ -144,14 +144,11 @@ func (node *Node) Template(templatePath string) *Node {
 	return node
 }
 
-func (node *Node) TemplateFolder(globPath string) *Node {
-
-	t, err := node.newTemplate().ParseGlob(globPath); if err != nil { panic(err) }
+func (node *Node) TemplateFolder(folderPath string) *Node {
 
 	h := &Handler{
 		isFolder:				true,
-		template:				t,
-		templatePath:			globPath,
+		templatePath:			folderPath,
 		templateType:			"text/html",
 	}
 

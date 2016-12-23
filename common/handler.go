@@ -115,7 +115,7 @@ func (handler *Handler) Handle(req RequestInterface, pathSegment string) {
 
 	}
 
-	if handler.isFile && handler.isFolder {
+	if !handler.isFile && !handler.isFolder {
 
 		function := handler.Config.GetHandlerFunction(handler.functionKey)
 
