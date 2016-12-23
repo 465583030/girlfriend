@@ -146,7 +146,7 @@ func (node *Node) Template(templatePath string) *Node {
 
 func (node *Node) TemplateFolder(globPath string) *Node {
 
-	t, err := node.newTemplate().ParseGlob(globPath); if err != nil { panic(err) }
+	t, err := temp.ParseGlob(globPath); if err != nil { panic(err) }
 
 	h := &Handler{
 		isFolder:				true,
