@@ -213,3 +213,35 @@ func (node *Node) POST(functionKey string, schemes ...interface{}) *Node {
 
 	return node
 }
+
+// Allows POST requests to the node's handler
+func (node *Node) PUT(functionKey string, schemes ...interface{}) *Node {
+
+	h := &Handler{
+		functionKey:			functionKey,
+	}
+
+	if len(schemes) > 0 {
+		h.payloadSchema = schemes[0]
+	}
+
+	if len(schemes) > 1 {
+		h.responseSchema = schemes[1]
+	}
+
+	node.addHandler("PUT", h)
+
+	return node
+}
+
+// Allows POST requests to the node's handler
+func (node *Node) DELETE(functionKey string, schemes ...interface{}) *Node {
+
+	h := &Handler{
+		functionKey:			functionKey,
+	}
+
+	node.addHandler("DELETE", h)
+
+	return node
+}
