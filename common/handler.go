@@ -7,6 +7,23 @@ import	(
 		temp "html/template"
 		)
 
+func (node *Node) addHandler(method string, h *Handler) {
+
+	h.method = method
+	h.Config = node.Config
+	h.node = node
+
+	node.Lock()
+		node.methods[method] = h
+	node.Unlock()
+
+	node.Config.Lock()
+		node.Config.activeHandlers[h] = struct{}{}
+	node.Config.Unlock()
+
+	h.GenerateClientJS()
+}
+
 type Handler struct {
 	Config *Config
 	node *Node
@@ -14,8 +31,8 @@ type Handler struct {
 	functionKey string
 	handlerType string
 	template *temp.Template
-	templateFolder *temp.Template
 	templatePath string
+	templateType string
 	responseSchema interface{}
 	payloadSchema interface{}
 	clientJS *bytes.Buffer
@@ -114,7 +131,7 @@ func (handler *Handler) Handle(req RequestInterface) {
 
 			name := path[len(path)-1]
 
-			req.SetHeader("Content-Type", "text/html")
+			req.SetHeader("Content-Type", handler.templateType)
 
 			err := handler.template.ExecuteTemplate(req.Writer(), name, nil); if err != nil { panic(err) }
 

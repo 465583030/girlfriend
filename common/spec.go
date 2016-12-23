@@ -26,6 +26,7 @@ type HandlerSpec struct {
 	IsTemplate bool
 	IsTemplateFolder bool
 	TemplatePath string
+	TemplateMode string
 }
 
 func (handler *Handler) Spec() *HandlerSpec {
@@ -45,7 +46,7 @@ func (handler *Handler) Spec() *HandlerSpec {
 		PayloadSchema:			handler.payloadSchema,
 		ResponseSchema:			handler.responseSchema,
 		IsTemplate:				(handler.template != nil),
-		IsTemplateFolder:		(handler.templateFolder != nil),
+		TemplateMode:			handler.handlerType,
 		TemplatePath:			handler.templatePath,
 		RouteParams:			validations,
 	}

@@ -112,14 +112,53 @@ func (node *Node) handler(req RequestInterface) *Handler {
 
 // templates
 
+func (node *Node) newTemplate() *temp.Template {
+
+	return temp.New("").Delims(node.Config.lDelim, node.Config.rDelim)
+
+}
+
 func (node *Node) Template(templatePath string) *Node {
 
-	t, err := temp.New("").Delims(node.Config.lDelim, node.Config.rDelim).ParseFiles(templatePath); if err != nil { panic(err) }
+	t, err := node.newTemplate().ParseFiles(templatePath); if err != nil { panic(err) }
 
 	h := &Handler{
 		handlerType:			"file",
 		template:				t,
 		templatePath:			templatePath,
+		templateType:			"text/html",
+	}
+
+	node.addHandler("GET", h)
+
+	return node
+}
+
+func (node *Node) TemplateFolder(globPath string) *Node {
+
+	t, err := node.newTemplate().ParseGlob(globPath); if err != nil { panic(err) }
+
+	h := &Handler{
+		handlerType:			"folder",
+		template:				t,
+		templatePath:			globPath,
+		templateType:			"text/html",
+	}
+
+	node.addHandler("GET", h)
+
+	return node
+}
+
+func (node *Node) File(templatePath, contentType string) *Node {
+
+	t, err := node.newTemplate().ParseFiles(templatePath); if err != nil { panic(err) }
+
+	h := &Handler{
+		handlerType:			"file",
+		template:				t,
+		templatePath:			templatePath,
+		templateType:			contentType,
 	}
 
 	node.addHandler("GET", h)
@@ -128,23 +167,6 @@ func (node *Node) Template(templatePath string) *Node {
 }
 
 // methods
-
-func (node *Node) addHandler(method string, h *Handler) {
-
-	h.method = method
-	h.Config = node.Config
-	h.node = node
-
-	node.Lock()
-		node.methods[method] = h
-	node.Unlock()
-
-	node.Config.Lock()
-		node.Config.activeHandlers[h] = struct{}{}
-	node.Config.Unlock()
-
-	h.GenerateClientJS()
-}
 
 // Allows GET requests to the node's handler
 func (node *Node) GET(functionKey string, responseSchema ...interface{}) *Node {
