@@ -17,3 +17,12 @@ Automatically handles all client errors in a dependable way.
 Allows custom validation & middleware functions.
 
 Allows very complex routing without creating a mess.
+
+```
+  root, router := girlfriend.NewRouter('www')
+
+  api := root.Add("api")
+  
+      api.Add("/product").Param(gf.String(30), "productID").GET("gf_Product_Get")
+
+```
