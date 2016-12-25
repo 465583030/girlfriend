@@ -12,6 +12,7 @@ func init() {
 	globalNode = &Node{
 		routes:			map[string]*Node{},
 		methods:		map[string]*Handler{},
+		modules:		[]*Module{},
 		validations:	[]*ValidationConfig{},
 	}
 

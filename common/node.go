@@ -13,6 +13,7 @@ type Node struct {
 	param *Node
 	routes map[string]*Node
 	methods map[string]*Handler
+	modules []*Module
 	validation *ValidationConfig
 	validations []*ValidationConfig
 	sync.RWMutex
@@ -24,6 +25,7 @@ func (node *Node) new(path string) *Node {
 		Config:			node.Config,
 		routes:			map[string]*Node{},
 		methods:		map[string]*Handler{},
+		modules:		[]*Module{},
 		// inherited properties
 		Path: 			node.Path + "/" + path,
 		validations:	node.validations,
@@ -63,6 +65,24 @@ func (node *Node) Param(config *ValidationConfig, keys ...string) *Node {
 	node.param = n
 
 	return n
+}
+
+// Adds a new path-node to the tree
+func (node *Node) Mod(functionKey string, keys ...string) *Node {
+
+	if node.Config.ModuleRegistry == nil { panic("Config has no ModuleRegistry setting!") }
+
+	module := &Module{
+		config:					node.Config,
+		functionKey:			functionKey,
+		paramKeys:				keys,
+	}
+
+	node.Lock()
+		node.modules = append(node.modules, module)
+	node.Unlock()
+
+	return node
 }
 
 // traversal
@@ -176,69 +196,57 @@ func (node *Node) File(templatePath, contentType string) *Node {
 // methods
 
 // Allows GET requests to the node's handler
-func (node *Node) GET(functionKey string, responseSchema ...interface{}) *Node {
+func (node *Node) GET(functionKeys ...string) *Handler {
 
-	h := &Handler{
-		functionKey:			functionKey,
-	}
-
-	if len(responseSchema) > 0 {
-		h.responseSchema = responseSchema[0]
+	h := &Handler{}
+	
+	if len(functionKeys) > 0 {
+		h.functionKey = functionKeys[0]
 	}
 
 	node.addHandler("GET", h)
 
-	return node
+	return h
 }
 
 // Allows POST requests to the node's handler
-func (node *Node) POST(functionKey string, schemes ...interface{}) *Node {
+func (node *Node) POST(functionKeys ...string) *Handler {
 
-	h := &Handler{
-		functionKey:			functionKey,
-	}
-
-	if len(schemes) > 0 {
-		h.payloadSchema = schemes[0]
-	}
-
-	if len(schemes) > 1 {
-		h.responseSchema = schemes[1]
+	h := &Handler{}
+	
+	if len(functionKeys) > 0 {
+		h.functionKey = functionKeys[0]
 	}
 
 	node.addHandler("POST", h)
 
-	return node
+	return h
 }
 
-// Allows POST requests to the node's handler
-func (node *Node) PUT(functionKey string, schemes ...interface{}) *Node {
+// Allows PUT requests to the node's handler
+func (node *Node) PUT(functionKeys ...string) *Handler {
 
-	h := &Handler{
-		functionKey:			functionKey,
-	}
-
-	if len(schemes) > 0 {
-		h.payloadSchema = schemes[0]
-	}
-
-	if len(schemes) > 1 {
-		h.responseSchema = schemes[1]
+	h := &Handler{}
+	
+	if len(functionKeys) > 0 {
+		h.functionKey = functionKeys[0]
 	}
 
 	node.addHandler("PUT", h)
 
-	return node
+	return h
 }
 
 // Allows POST requests to the node's handler
-func (node *Node) DELETE(functionKey string, schemes ...interface{}) *Node {
+func (node *Node) DELETE(functionKeys ...string) *Handler {
 
-	h := &Handler{
-		functionKey:			functionKey,
+	h := &Handler{}
+	
+	if len(functionKeys) > 0 {
+		h.functionKey = functionKeys[0]
 	}
 
 	node.addHandler("DELETE", h)
 
-	return node
+	return h
 }

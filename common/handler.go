@@ -83,6 +83,22 @@ func (handler *Handler) ApiUrl() string {
 	return "'" + name + "'"
 }
 
+// Applys model which describes request payload
+func (handler *Handler) Payload(schema ...interface{}) *Handler {
+
+	handler.payloadSchema = schema[0]
+
+	return handler
+}
+
+// Applys model which describes response schema
+func (handler *Handler) Response(schema ...interface{}) *Handler {
+
+	handler.responseSchema = schema[0]
+
+	return handler
+}
+
 func (handler *Handler) Handle(req RequestInterface, pathSegment string) {
 
 	// handle payload
@@ -112,6 +128,14 @@ func (handler *Handler) Handle(req RequestInterface, pathSegment string) {
 			}
 
 		default:
+
+	}
+
+	// execute all module functions
+
+	for _, module := range handler.node.modules {
+
+		status := module.Run(req); if status != nil { HandleStatus(req, status) }
 
 	}
 

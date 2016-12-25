@@ -11,6 +11,7 @@ type Config struct {
 	Host string
 	RootRegistry Registry
 	HandlerRegistry Registry
+	ModuleRegistry ModuleRegistry
 	lDelim, rDelim string
 	activeHandlers map[*Handler]struct{}
 	countries map[string]*Country
@@ -32,7 +33,7 @@ func (config *Config) SetDelims(l, r string) {
 	config.Unlock()
 }
 
-// Allows the setting of the registry
+// Sets the root registry to the specified map
 func (config *Config) SetRootRegistry(reg Registry) {
 
 	config.Lock()
@@ -43,6 +44,7 @@ func (config *Config) SetRootRegistry(reg Registry) {
 
 }
 
+// Sets the handler registry to the specified map
 func (config *Config) SetHandlerRegistry(reg Registry) {
 
 	config.Lock()
@@ -53,6 +55,18 @@ func (config *Config) SetHandlerRegistry(reg Registry) {
 
 }
 
+// Sets the module registry to the specified map
+func (config *Config) SetModuleRegistry(reg ModuleRegistry) {
+
+	config.Lock()
+	
+		config.ModuleRegistry = reg
+
+	config.Unlock()
+
+}
+
+// Returns the root function if present in the registry
 func (config *Config) GetRootFunction(functionKey string) HandlerFunction {
 
 	if config.RootRegistry == nil { return nil }
@@ -64,10 +78,21 @@ func (config *Config) GetRootFunction(functionKey string) HandlerFunction {
 	return function
 }
 
+// Returns the handler function if present in the registry
 func (config *Config) GetHandlerFunction(functionKey string) HandlerFunction {
 
 	config.RLock()
 		function := config.HandlerRegistry[functionKey]
+	config.RUnlock()
+
+	return function
+}
+
+// Returns the handler function if present in the registry
+func (config *Config) GetModuleFunction(functionKey string) ModuleFunction {
+
+	config.RLock()
+		function := config.ModuleRegistry[functionKey]
 	config.RUnlock()
 
 	return function
