@@ -11,6 +11,9 @@ const	(
 // main handler
 func (node *Node) MainHandler(req RequestInterface, fullPath string) {
 
+	req.SetHeader("Access-Control-Allow-Origin", "*")
+	if req.Method() == "OPTIONS" { return }
+
 	switch fullPath {
 
 		case "/_.js":
@@ -111,8 +114,7 @@ func (node *Node) MainHandler(req RequestInterface, fullPath string) {
 
 	}
 
-	req.SetHeader("Access-Control-Allow-Origin", "*")
-	if req.Method() == "OPTIONS" { return }
+	handler.ReadPayload(req)
 
 	handler.Handle(req, lastSegment)
 

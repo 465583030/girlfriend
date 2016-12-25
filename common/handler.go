@@ -99,7 +99,8 @@ func (handler *Handler) Response(schema ...interface{}) *Handler {
 	return handler
 }
 
-func (handler *Handler) Handle(req RequestInterface, pathSegment string) {
+// Validates any payload present in the request body, according to the payloadSchema
+func (handler *Handler) ReadPayload(req RequestInterface) {
 
 	// handle payload
 
@@ -130,6 +131,11 @@ func (handler *Handler) Handle(req RequestInterface, pathSegment string) {
 		default:
 
 	}
+
+}
+
+// Executes the modules and any hander-function, template or folder
+func (handler *Handler) Handle(req RequestInterface, pathSegment string) {
 
 	// execute all module functions
 
