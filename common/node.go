@@ -68,14 +68,14 @@ func (node *Node) Param(config *ValidationConfig, keys ...string) *Node {
 }
 
 // Adds a new path-node to the tree
-func (node *Node) Mod(functionKey string, keys ...string) *Node {
+func (node *Node) Mod(functionKey string, arg interface{}) *Node {
 
 	if node.Config.ModuleRegistry == nil { panic("Config has no ModuleRegistry setting!") }
 
 	module := &Module{
 		config:					node.Config,
 		functionKey:			functionKey,
-		paramKeys:				keys,
+		arg:					arg,
 	}
 
 	node.Lock()

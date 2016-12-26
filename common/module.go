@@ -7,7 +7,7 @@ type Module struct {
 	config *Config
 	functionKey string
 	function ModuleFunction
-	paramKeys []string
+	arg interface{}
 }
 
 func (mod *Module) Run(req RequestInterface) *ResponseStatus {
@@ -20,6 +20,6 @@ func (mod *Module) Run(req RequestInterface) *ResponseStatus {
 
 	}
 
-	return mod.function(req, mod.paramKeys...)
+	return mod.function(req, mod.arg)
 } 
 

@@ -7,6 +7,6 @@ type HandlerFunction func (RequestInterface) *ResponseStatus
 
 type Registry map[string]HandlerFunction
 
-type ModuleFunction func (RequestInterface, ...string) *ResponseStatus
+type ModuleFunction func (RequestInterface, interface{}) *ResponseStatus
 
 type ModuleRegistry map[string]ModuleFunction
