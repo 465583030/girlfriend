@@ -109,7 +109,7 @@ func (node *Node) MainHandler(req RequestInterface, fullPath string) {
 
 	if handler == nil {
 
-		req.HttpError("NO CONTROLLER FOUND AT "+next.Path, 500)
+		req.HttpError("NO CONTROLLER FOUND AT "+next.Path(), 500)
 		return
 
 	}

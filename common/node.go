@@ -9,7 +9,8 @@ import	(
 
 type Node struct {
 	Config *Config
-	Path string
+	parent *Node
+	path string
 	param *Node
 	routes map[string]*Node
 	methods map[string]*Handler
@@ -22,19 +23,35 @@ type Node struct {
 func (node *Node) new(path string) *Node {
 
 	n := &Node{
+		parent:			node,
 		Config:			node.Config,
 		routes:			map[string]*Node{},
 		methods:		map[string]*Handler{},
 		modules:		[]*Module{},
 		// inherited properties
-		Path: 			node.Path + "/" + path,
+		path: 			path,
 		validations:	node.validations,
 	}
 
 	return n
 }
 
-// Adds a new path-node to the tree
+
+// Adds a new node to the tree
+func (node *Node) Path() string {
+
+	path := node.path
+	
+	for {
+		parent := node.parent; if parent == nil { break }
+
+		path = parent.path + path
+	}
+
+	return path
+}
+
+// Adds a new node to the tree
 func (node *Node) Add(path string) *Node {
 
 	path = strings.TrimSpace(strings.Replace(path, "/", "", -1))

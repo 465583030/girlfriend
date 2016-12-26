@@ -45,7 +45,7 @@ func (handler *Handler) Name() string {
 
 	var name string
 
-	parts := strings.Split(handler.node.Path, "/")
+	parts := strings.Split(handler.node.Path(), "/")
 
 	if len(parts) == 1 { return "" }
 
@@ -64,7 +64,7 @@ func (handler *Handler) ApiUrl() string {
 
 	var name string
 
-	parts := strings.Split(handler.node.Path, "/")
+	parts := strings.Split(handler.node.Path(), "/")
 
 	if len(parts) == 1 { return "" }
 

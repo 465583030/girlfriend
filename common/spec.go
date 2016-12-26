@@ -41,7 +41,7 @@ func (handler *Handler) Spec() *HandlerSpec {
 	spec := &HandlerSpec{
 		Method:					handler.method,
 		Function:				handler.functionKey,
-		Endpoint:				handler.node.Path,
+		Endpoint:				handler.node.Path(),
 		PayloadSchema:			handler.payloadSchema,
 		ResponseSchema:			handler.responseSchema,
 		IsTemplate:				(handler.template != nil),
