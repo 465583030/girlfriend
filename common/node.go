@@ -37,13 +37,15 @@ func (node *Node) new(path string) *Node {
 }
 
 
-// Returns the node's path string 1
+// Returns the node's path string
 func (node *Node) Path() string {
+
+	parent := node
 
 	path := node.path
 	
 	for {
-		parent := node.parent; if parent == nil { break }
+		parent = parent.parent; if parent == nil { break }
 
 		path = parent.path + "/" + path
 	}
