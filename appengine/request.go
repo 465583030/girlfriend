@@ -11,6 +11,7 @@ import 	(
 
 type Request struct {
 	config *gf.Config
+	path string
 	Node *gf.Node
 	method string
 	res http.ResponseWriter
@@ -56,7 +57,13 @@ func (req *Request) BodyObject() map[string]interface{} {
 
 func (req *Request) Path() string {
 
-	return req.Node.Path
+	if len(req.path) == 0 {
+
+		req.path = req.Node.Path()
+
+	}
+
+	return req.path
 }
 
 func (req *Request) Method() string {
