@@ -37,7 +37,7 @@ func (node *Node) new(path string) *Node {
 }
 
 
-// Adds a new node to the tree
+// Returns the node's path string 1
 func (node *Node) Path() string {
 
 	path := node.path
@@ -45,7 +45,7 @@ func (node *Node) Path() string {
 	for {
 		parent := node.parent; if parent == nil { break }
 
-		path = parent.path + path
+		path = parent.path + "/" + path
 	}
 
 	return path
