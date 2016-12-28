@@ -141,7 +141,7 @@ func (handler *Handler) Handle(req RequestInterface, pathSegment string) {
 
 	for _, module := range handler.node.modules {
 
-		status := module.Run(req); if status != nil { HandleStatus(req, status) }
+		status := module.Run(req); if status != nil { HandleStatus(req, status); return }
 
 	}
 
