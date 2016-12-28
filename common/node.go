@@ -27,7 +27,7 @@ func (node *Node) new(path string) *Node {
 		Config:			node.Config,
 		routes:			map[string]*Node{},
 		methods:		map[string]*Handler{},
-		modules:		[]*Module{},
+		modules:		node.modules,
 		// inherited properties
 		path: 			path,
 		validations:	node.validations,
