@@ -12,6 +12,7 @@ type Config struct {
 	RootRegistry Registry
 	HandlerRegistry Registry
 	ModuleRegistry ModuleRegistry
+	headers Headers
 	lDelim, rDelim string
 	activeHandlers map[*Handler]struct{}
 	countries map[string]*Country
@@ -61,6 +62,17 @@ func (config *Config) SetModuleRegistry(reg ModuleRegistry) {
 	config.Lock()
 	
 		config.ModuleRegistry = reg
+
+	config.Unlock()
+
+}
+
+// Sets the http preflight headers to the specified map
+func (config *Config) SetHeaders(h Headers) {
+
+	config.Lock()
+	
+		config.headers = h
 
 	config.Unlock()
 

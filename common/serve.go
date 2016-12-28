@@ -11,7 +11,10 @@ const	(
 // main handler
 func (node *Node) MainHandler(req RequestInterface, fullPath string) {
 
-	req.SetHeader("Access-Control-Allow-Origin", "*")
+	// set CORS headers
+	for k, v := range node.Config.headers { req.SetHeader(k, v) }
+
+	// return if preflight request
 	if req.Method() == "OPTIONS" { return }
 
 	switch fullPath {
