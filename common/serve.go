@@ -25,6 +25,8 @@ func (node *Node) MainHandler(req RequestInterface, fullPath string) {
 			
 			for handler, _ := range node.Config.activeHandlers {
 
+				if handler.clientJS == nil { continue }
+
 				req.Write(handler.clientJS.Bytes())
 
 			}
